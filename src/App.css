@@ -1,0 +1,15 @@
+.container {
+  height: 100vh;
+}
+
+.container.red{
+  background-color: red;
+}
+
+.container.yellow{
+  background-color: yellow;
+}
+
+.container.green{
+  background-color: green;
+}
