@@ -1,4 +1,4 @@
-import Analytics from './analytics/Analytics';
+import {Analytics, AnalyticsProvider, withAnalyticsHOC} from './analytics/Analytics';
 import {useState} from 'react';
 import './App.css'
 import { Options } from './analytics/Analytics.type';
@@ -19,4 +19,30 @@ function App() {
   );
 }
 
+// function App() {
+//   const options:Options = {
+//     endpoint: "api/analytics",
+//     events: ["click", "mousedown", "keydown"],
+//   }
+  
+//   return (
+//        <AnalyticsProvider options={options}>
+//          <div></div>
+//        </AnalyticsProvider>
+//   );
+// }
+
+// function App() {
+//   return (
+//       <div>
+//         Event
+//       </div>
+//   );
+// }
+
+
+// export default withAnalyticsHOC(App, {
+//   endpoint: "api/analytics",
+//   events: ["click", "mousedown", "keydown"],
+// });
 export default App;
