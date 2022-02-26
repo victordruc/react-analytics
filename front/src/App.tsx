@@ -6,7 +6,7 @@ import { Options } from './analytics/Analytics.type';
 function App() {
   
   const options:Options = {
-    endpoint: "api/analytics",
+    endpoint: "http://localhost:4000/api/analytics",
     events: ["click", "mousedown", "keydown"],
   }
   
