@@ -16,4 +16,5 @@ ReactDOM.render(
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
 
-navigator.serviceWorker.register("/sw-analytics.js")
+navigator.serviceWorker.register("/sw-pwa.js")
+// navigator.serviceWorker.register("/sw-analytics.js")
