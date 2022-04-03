@@ -1,9 +1,6 @@
 const appVersionID = "app-shop-v0.1.0";
 
-const CACHE_OFFLINE_ASSETS = [
-    "/", 
-    "/static/js/bundle.js"
-];
+const CACHE_OFFLINE_ASSETS = ["/", "/static/js/bundle.js"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(
@@ -30,7 +27,12 @@ self.addEventListener("activate", (e) => {
 
 self.addEventListener("fetch", (e) => {
   e.respondWith(
-      caches
-        .match(e.request)
-        .then((asset) => asset));
+    caches
+      .match(e.request)
+      .then(
+        (asset) =>
+          asset ||
+          (!(e.request.url.endsWith("/api/analytics")) && fetch(e.request))
+      )
+  );
 });

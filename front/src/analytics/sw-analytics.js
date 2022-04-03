@@ -1,3 +1,6 @@
+import { postAction } from "./api";
+const endpoint = "http://localhost:4000/api/analytics";
+
 function DbIndex(dbName, dbColl) {
   return {
     upgradeneeded() {
@@ -16,6 +19,15 @@ function DbIndex(dbName, dbColl) {
           .objectStore(dbColl)
           .add(data, Date.now());
       };
+    },
+    objectStore() {
+      const dbConn = indexedDB.open(dbName);
+      return new Promise((res) => {
+        dbConn.onsuccess = (dbEvent) => {
+          const db = dbEvent.target.result;
+          res(db.transaction(dbColl, "readwrite").objectStore(dbColl));
+        };
+      });
     },
   };
 }
@@ -40,6 +52,16 @@ self.addEventListener("fetch", (e) => {
       });
     } else {
       console.info("SENDING online data");
+      dbIndex.objectStore().then((res) => {
+        res.getAll().onsuccess = (dbResponseEvent) => {
+          const actions = dbResponseEvent.target.result;
+          Promise.all(
+            actions.map((userAction) => postAction(endpoint, userAction))
+          ).then(()=>{
+            dbIndex.objectStore().then(store=>store.clear())
+          })
+        };
+      });
     }
   }
 });

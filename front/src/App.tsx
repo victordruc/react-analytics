@@ -8,6 +8,7 @@ function App() {
   const options:Options = {
     endpoint: "http://localhost:4000/api/analytics",
     events: ["click", "mousedown", "keydown"],
+    batch: 20,
   }
   
   const [eventStatus, setEventStatus] = useState(false)

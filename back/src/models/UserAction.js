@@ -1,6 +1,7 @@
 class UserAction {
-  constructor(type) {
+  constructor(type, timestamp) {
     this.type = type;
+    this.timestamp = timestamp;
   }
 }
 

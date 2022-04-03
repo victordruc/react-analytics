@@ -1,24 +1,36 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Options, Props } from "./Analytics.type";
+import { postAction } from "./api";
 
-class UserAction {
-  constructor(private type: string) {}
+const dateWithUuid = (lengthID: number = 5) => {
+  const uuid = Math.floor(Math.random() * 10 ** lengthID);
+  return Date.now() + "-" + uuid;
+};
+
+export class UserAction {
+  constructor(
+    private type: string,
+    private timestamp: string = dateWithUuid()
+  ) {}
 }
 
 export const Analytics = (options: Options) => {
-  const { endpoint, events } = options;
+  const { endpoint, events, batch } = options;
+
+  const [userActionList, setUserActionList] = useState<UserAction[]>([]);
 
   const eventListener = (e: Event) => {
     console.log("User has", e.type);
     const userAction = new UserAction(e.type);
-    fetch(endpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userAction),
-    });
+    setUserActionList((state) => [...state, userAction]);
   };
+
+  useEffect(() => {
+    if (userActionList.length >= batch) {
+      postAction(endpoint, userActionList);
+      setUserActionList([]);
+    }
+  }, [userActionList]);
 
   useEffect(() => {
     events.forEach((event) => {
