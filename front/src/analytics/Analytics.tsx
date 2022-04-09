@@ -10,7 +10,7 @@ const dateWithUuid = (lengthID: number = 5) => {
 export class UserAction {
   constructor(
     private type: string,
-    private timestamp: string = dateWithUuid()
+    private timestamp: number = Date.now()
   ) {}
 }
 
